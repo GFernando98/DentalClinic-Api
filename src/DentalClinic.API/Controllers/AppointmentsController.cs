@@ -20,25 +20,25 @@ public class AppointmentsController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet]
+    [HttpGet("GetAll")]
     public async Task<ActionResult<Result<IReadOnlyList<AppointmentDto>>>> GetAll(
         [FromQuery] DateTime? from, [FromQuery] DateTime? to, [FromQuery] Guid? doctorId, CancellationToken ct)
         => Ok(await _mediator.Send(new GetAppointmentsQuery(from, to, doctorId), ct));
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("GetById/{id:guid}")]
     public async Task<ActionResult<Result<AppointmentDto>>> GetById(Guid id, CancellationToken ct)
         => Ok(await _mediator.Send(new GetAppointmentByIdQuery(id), ct));
 
-    [HttpGet("patient/{patientId:guid}")]
+    [HttpGet("GetByPatient/{patientId:guid}")]
     public async Task<ActionResult<Result<IReadOnlyList<AppointmentDto>>>> GetByPatient(Guid patientId, CancellationToken ct)
         => Ok(await _mediator.Send(new GetPatientAppointmentsQuery(patientId), ct));
 
-    [HttpGet("today")]
+    [HttpGet("GetToday")]
     public async Task<ActionResult<Result<IReadOnlyList<AppointmentDto>>>> GetToday(
         [FromQuery] Guid? doctorId, CancellationToken ct)
         => Ok(await _mediator.Send(new GetTodayAppointmentsQuery(doctorId), ct));
 
-    [HttpPost]
+    [HttpPost("Create")]
     public async Task<ActionResult<Result<AppointmentDto>>> Create([FromBody] CreateAppointmentDto dto, CancellationToken ct)
     {
         var result = await _mediator.Send(new CreateAppointmentCommand(dto), ct);
@@ -47,14 +47,14 @@ public class AppointmentsController : ControllerBase
             : BadRequest(result);
     }
 
-    [HttpPut("{id:guid}")]
+    [HttpPut("Update/{id:guid}")]
     public async Task<ActionResult<Result<AppointmentDto>>> Update(Guid id, [FromBody] CreateAppointmentDto dto, CancellationToken ct)
     {
         var result = await _mediator.Send(new UpdateAppointmentCommand(id, dto), ct);
         return result.Succeeded ? Ok(result) : BadRequest(result);
     }
 
-    [HttpPut("{id:guid}/status")]
+    [HttpPut("UpdateStatus/{id:guid}/status")]
     public async Task<ActionResult<Result<AppointmentDto>>> UpdateStatus(
         Guid id, [FromBody] UpdateAppointmentStatusDto dto, CancellationToken ct)
     {
@@ -62,7 +62,7 @@ public class AppointmentsController : ControllerBase
         return result.Succeeded ? Ok(result) : BadRequest(result);
     }
 
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("Delete/{id:guid}")]
     public async Task<ActionResult<Result<bool>>> Delete(Guid id, CancellationToken ct)
         => Ok(await _mediator.Send(new DeleteAppointmentCommand(id), ct));
 }

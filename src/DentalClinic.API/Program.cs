@@ -102,6 +102,47 @@ app.UseMiddleware<ActivityTrackingMiddleware>();
 
 app.MapControllers();
 
+// ─── TEST CONNECTION ──────────────────────────────────────────────────
+using (var scope = app.Services.CreateScope())
+{
+    var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+    var connString = config.GetConnectionString("DefaultConnection");
+    
+    Console.WriteLine("===========================================");
+    Console.WriteLine("CONNECTION STRING TEST:");
+    Console.WriteLine(connString?.Replace("Password=syWa2CCtUt@2025!", "Password=***"));
+    Console.WriteLine("===========================================");
+    
+    // Test 1: Direct SQL Connection
+    try
+    {
+        using var conn = new Microsoft.Data.SqlClient.SqlConnection(connString);
+        await conn.OpenAsync();
+        Console.WriteLine("✓ Direct SqlConnection: SUCCESS");
+        Console.WriteLine($"  Server: {conn.DataSource}");
+        Console.WriteLine($"  Database: {conn.Database}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"✗ Direct SqlConnection: FAILED");
+        Console.WriteLine($"  Error: {ex.Message}");
+    }
+    
+    // Test 2: DbContext
+    try
+    {
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        var canConnect = await context.Database.CanConnectAsync();
+        Console.WriteLine($"✓ DbContext CanConnect: {canConnect}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"✗ DbContext: FAILED");
+        Console.WriteLine($"  Error: {ex.Message}");
+    }
+    Console.WriteLine("===========================================");
+}
+
 // ─── Seed Database ────────────────────────────────────────────────────
 await DatabaseSeeder.SeedAsync(app.Services);
 

@@ -18,15 +18,15 @@ public class DoctorsController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet]
+    [HttpGet("GetAll")]
     public async Task<ActionResult<Result<IReadOnlyList<DoctorDto>>>> GetAll(CancellationToken ct)
         => Ok(await _mediator.Send(new GetAllDoctorsQuery(), ct));
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("GetById/{id:guid}")]
     public async Task<ActionResult<Result<DoctorDto>>> GetById(Guid id, CancellationToken ct)
         => Ok(await _mediator.Send(new GetDoctorByIdQuery(id), ct));
 
-    [HttpPost]
+    [HttpPost("Create")]
     [Authorize(Policy = "AdminOnly")]
     public async Task<ActionResult<Result<DoctorDto>>> Create([FromBody] CreateDoctorDto dto, CancellationToken ct)
     {
@@ -36,7 +36,7 @@ public class DoctorsController : ControllerBase
             : BadRequest(result);
     }
 
-    [HttpPut("{id:guid}")]
+    [HttpPut("Update/{id:guid}")]
     [Authorize(Policy = "AdminOnly")]
     public async Task<ActionResult<Result<DoctorDto>>> Update(Guid id, [FromBody] CreateDoctorDto dto, CancellationToken ct)
     {

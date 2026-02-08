@@ -20,7 +20,7 @@ public class UsersController : ControllerBase
         _userManager = userManager;
     }
 
-    [HttpGet]
+    [HttpGet("GetAll")]
     public async Task<ActionResult<Result<List<UserInfoDto>>>> GetAll()
     {
         var users = await _userManager.Users
@@ -46,7 +46,7 @@ public class UsersController : ControllerBase
         return Ok(Result<List<UserInfoDto>>.Success(usersDto));
     }
 
-    [HttpPut("{id}/toggle-active")]
+    [HttpPut("ToggleActive/{id}/toggle-active")]
     public async Task<ActionResult<Result<bool>>> ToggleActive(string id)
     {
         var user = await _userManager.FindByIdAsync(id);
@@ -64,7 +64,7 @@ public class UsersController : ControllerBase
             user.IsActive ? "Usuario activado." : "Usuario desactivado."));
     }
 
-    [HttpPut("{id}/roles")]
+    [HttpPut("UpdateRoles/{id}/roles")]
     public async Task<ActionResult<Result<bool>>> UpdateRoles(string id, [FromBody] List<string> roles)
     {
         var user = await _userManager.FindByIdAsync(id);

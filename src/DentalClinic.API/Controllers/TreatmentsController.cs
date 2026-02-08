@@ -18,15 +18,15 @@ public class TreatmentsController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet]
+    [HttpGet("GetAll")]
     public async Task<ActionResult<Result<IReadOnlyList<TreatmentDto>>>> GetAll(CancellationToken ct)
         => Ok(await _mediator.Send(new GetAllTreatmentsQuery(), ct));
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("GetById/{id:guid}")]
     public async Task<ActionResult<Result<TreatmentDto>>> GetById(Guid id, CancellationToken ct)
         => Ok(await _mediator.Send(new GetTreatmentByIdQuery(id), ct));
 
-    [HttpPost]
+    [HttpPost("Create")]
     [Authorize(Policy = "AdminOnly")]
     public async Task<ActionResult<Result<TreatmentDto>>> Create([FromBody] CreateTreatmentDto dto, CancellationToken ct)
     {
@@ -36,7 +36,7 @@ public class TreatmentsController : ControllerBase
             : BadRequest(result);
     }
 
-    [HttpPut("{id:guid}")]
+    [HttpPut("Update/{id:guid}")]
     [Authorize(Policy = "AdminOnly")]
     public async Task<ActionResult<Result<TreatmentDto>>> Update(Guid id, [FromBody] CreateTreatmentDto dto, CancellationToken ct)
     {

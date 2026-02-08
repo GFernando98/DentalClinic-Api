@@ -20,15 +20,15 @@ public class OdontogramController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet("patient/{patientId:guid}")]
+    [HttpGet("GetByPatient/{patientId:guid}")]
     public async Task<ActionResult<Result<IReadOnlyList<OdontogramDto>>>> GetByPatient(Guid patientId, CancellationToken ct)
         => Ok(await _mediator.Send(new GetPatientOdontogramsQuery(patientId), ct));
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("GetById/{id:guid}")]
     public async Task<ActionResult<Result<OdontogramDto>>> GetById(Guid id, CancellationToken ct)
         => Ok(await _mediator.Send(new GetOdontogramByIdQuery(id), ct));
 
-    [HttpPost]
+    [HttpPost("Create")]
     public async Task<ActionResult<Result<OdontogramDto>>> Create([FromBody] CreateOdontogramDto dto, CancellationToken ct)
     {
         var result = await _mediator.Send(new CreateOdontogramCommand(dto), ct);
@@ -37,7 +37,7 @@ public class OdontogramController : ControllerBase
             : BadRequest(result);
     }
 
-    [HttpPut("tooth/{toothRecordId:guid}")]
+    [HttpPut("UpdateTooth/{toothRecordId:guid}")]
     public async Task<ActionResult<Result<ToothRecordDto>>> UpdateTooth(
         Guid toothRecordId, [FromBody] UpdateToothDto dto, CancellationToken ct)
     {
@@ -45,7 +45,7 @@ public class OdontogramController : ControllerBase
         return result.Succeeded ? Ok(result) : BadRequest(result);
     }
 
-    [HttpPost("tooth/{toothRecordId:guid}/surface")]
+    [HttpPost("AddSurface/{toothRecordId:guid}/surface")]
     public async Task<ActionResult<Result<ToothSurfaceDto>>> AddSurface(
         Guid toothRecordId, [FromBody] AddSurfaceDto dto, CancellationToken ct)
     {
@@ -53,7 +53,7 @@ public class OdontogramController : ControllerBase
         return result.Succeeded ? Ok(result) : BadRequest(result);
     }
 
-    [HttpPost("tooth/{toothRecordId:guid}/treatment")]
+    [HttpPost("AddTreatment/{toothRecordId:guid}/treatment")]
     public async Task<ActionResult<Result<TreatmentRecordDto>>> AddTreatment(
         Guid toothRecordId, [FromBody] AddTreatmentRecordDto dto, CancellationToken ct)
     {
@@ -61,7 +61,7 @@ public class OdontogramController : ControllerBase
         return result.Succeeded ? Ok(result) : BadRequest(result);
     }
 
-    [HttpGet("tooth/{toothRecordId:guid}/treatments")]
+    [HttpGet("GetToothTreatments/{toothRecordId:guid}/treatments")]
     public async Task<ActionResult<Result<IReadOnlyList<TreatmentRecordDto>>>> GetToothTreatments(
         Guid toothRecordId, CancellationToken ct)
         => Ok(await _mediator.Send(new GetToothTreatmentsQuery(toothRecordId), ct));

@@ -17,3 +17,23 @@ C:\Users\Administrator\Documents\SysCore\DentalClinic\src\DentalClinic.Infrastru
 C:\Users\Administrator\Documents\SysCore\DentalClinic\src\DentalClinic.Infrastructure\obj\Debug\net8.0\DentalClinic.Infrastructure.pdb
 C:\Users\Administrator\Documents\SysCore\DentalClinic\src\DentalClinic.Infrastructure\obj\Debug\net8.0\DentalClinic.Infrastructure.genruntimeconfig.cache
 C:\Users\Administrator\Documents\SysCore\DentalClinic\src\DentalClinic.Infrastructure\obj\Debug\net8.0\ref\DentalClinic.Infrastructure.dll
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Infrastructure\bin\Debug\net8.0\DentalClinic.Infrastructure.deps.json
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Infrastructure\bin\Debug\net8.0\DentalClinic.Infrastructure.runtimeconfig.json
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Infrastructure\bin\Debug\net8.0\DentalClinic.Infrastructure.dll
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Infrastructure\bin\Debug\net8.0\DentalClinic.Infrastructure.pdb
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Infrastructure\bin\Debug\net8.0\DentalClinic.Application.dll
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Infrastructure\bin\Debug\net8.0\DentalClinic.Domain.dll
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Infrastructure\bin\Debug\net8.0\DentalClinic.Application.pdb
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Infrastructure\bin\Debug\net8.0\DentalClinic.Domain.pdb
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Infrastructure\obj\Debug\net8.0\DentalClinic.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Infrastructure\obj\Debug\net8.0\DentalClinic.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Infrastructure\obj\Debug\net8.0\DentalClinic.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Infrastructure\obj\Debug\net8.0\DentalClinic.Infrastructure.AssemblyInfo.cs
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Infrastructure\obj\Debug\net8.0\DentalClinic.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Infrastructure\obj\Debug\net8.0\DentalClinic.Infrastructure.sourcelink.json
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Infrastructure\obj\Debug\net8.0\DentalCl.32564D65.Up2Date
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Infrastructure\obj\Debug\net8.0\DentalClinic.Infrastructure.dll
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Infrastructure\obj\Debug\net8.0\refint\DentalClinic.Infrastructure.dll
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Infrastructure\obj\Debug\net8.0\DentalClinic.Infrastructure.pdb
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Infrastructure\obj\Debug\net8.0\DentalClinic.Infrastructure.genruntimeconfig.cache
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Infrastructure\obj\Debug\net8.0\ref\DentalClinic.Infrastructure.dll

@@ -13,3 +13,19 @@ C:\Users\Administrator\Documents\SysCore\DentalClinic\src\DentalClinic.Applicati
 C:\Users\Administrator\Documents\SysCore\DentalClinic\src\DentalClinic.Application\obj\Debug\net8.0\refint\DentalClinic.Application.dll
 C:\Users\Administrator\Documents\SysCore\DentalClinic\src\DentalClinic.Application\obj\Debug\net8.0\DentalClinic.Application.pdb
 C:\Users\Administrator\Documents\SysCore\DentalClinic\src\DentalClinic.Application\obj\Debug\net8.0\ref\DentalClinic.Application.dll
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Application\bin\Debug\net8.0\DentalClinic.Application.deps.json
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Application\bin\Debug\net8.0\DentalClinic.Application.dll
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Application\bin\Debug\net8.0\DentalClinic.Application.pdb
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Application\bin\Debug\net8.0\DentalClinic.Domain.dll
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Application\bin\Debug\net8.0\DentalClinic.Domain.pdb
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Application\obj\Debug\net8.0\DentalClinic.Application.csproj.AssemblyReference.cache
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Application\obj\Debug\net8.0\DentalClinic.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Application\obj\Debug\net8.0\DentalClinic.Application.AssemblyInfoInputs.cache
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Application\obj\Debug\net8.0\DentalClinic.Application.AssemblyInfo.cs
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Application\obj\Debug\net8.0\DentalClinic.Application.csproj.CoreCompileInputs.cache
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Application\obj\Debug\net8.0\DentalClinic.Application.sourcelink.json
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Application\obj\Debug\net8.0\DentalCl.62357CB2.Up2Date
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Application\obj\Debug\net8.0\DentalClinic.Application.dll
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Application\obj\Debug\net8.0\refint\DentalClinic.Application.dll
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Application\obj\Debug\net8.0\DentalClinic.Application.pdb
+C:\Users\gfmen\Desktop\Clinica Dental\DentalClinic-Api\src\DentalClinic.Application\obj\Debug\net8.0\ref\DentalClinic.Application.dll
