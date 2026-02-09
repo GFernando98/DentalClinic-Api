@@ -37,10 +37,9 @@ builder.Services.AddCors(options =>
         var origins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
             ?? new[] { "http://localhost:3000", "http://localhost:5173" };
 
-        policy.WithOrigins(origins)
-            .AllowAnyHeader()
+        policy.AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowCredentials();
+            .AllowAnyOrigin();
     });
 });
 
@@ -88,7 +87,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Dental Clinic API v1");
-        c.RoutePrefix = "swagger"; // Ahora Swagger será /swagger
+        c.RoutePrefix = "swagger";
     });
 }
 

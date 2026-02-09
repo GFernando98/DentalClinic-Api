@@ -667,8 +667,8 @@ namespace DentalClinic.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Category")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -716,11 +716,60 @@ namespace DentalClinic.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.HasIndex("Code")
                         .IsUnique()
                         .HasFilter("[IsDeleted] = 0");
 
                     b.ToTable("Treatments");
+                });
+
+            modelBuilder.Entity("DentalClinic.Domain.Entities.TreatmentCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Color")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TreatmentCategory");
                 });
 
             modelBuilder.Entity("DentalClinic.Domain.Entities.TreatmentRecord", b =>
@@ -1032,6 +1081,17 @@ namespace DentalClinic.Infrastructure.Migrations
                     b.Navigation("ToothRecord");
                 });
 
+            modelBuilder.Entity("DentalClinic.Domain.Entities.Treatment", b =>
+                {
+                    b.HasOne("DentalClinic.Domain.Entities.TreatmentCategory", "Category")
+                        .WithMany("Treatments")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("DentalClinic.Domain.Entities.TreatmentRecord", b =>
                 {
                     b.HasOne("DentalClinic.Domain.Entities.Appointment", "Appointment")
@@ -1160,6 +1220,11 @@ namespace DentalClinic.Infrastructure.Migrations
             modelBuilder.Entity("DentalClinic.Domain.Entities.Treatment", b =>
                 {
                     b.Navigation("TreatmentRecords");
+                });
+
+            modelBuilder.Entity("DentalClinic.Domain.Entities.TreatmentCategory", b =>
+                {
+                    b.Navigation("Treatments");
                 });
 #pragma warning restore 612, 618
         }

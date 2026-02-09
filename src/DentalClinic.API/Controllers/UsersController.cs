@@ -11,19 +11,12 @@ namespace DentalClinic.API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize(Policy = "AdminOnly")]
-public class UsersController : ControllerBase
+public class UsersController(UserManager<ApplicationUser> userManager) : ControllerBase
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-
-    public UsersController(UserManager<ApplicationUser> userManager)
-    {
-        _userManager = userManager;
-    }
-
     [HttpGet("GetAll")]
     public async Task<ActionResult<Result<List<UserInfoDto>>>> GetAll()
     {
-        var users = await _userManager.Users
+        var users = await userManager.Users
             .Where(u => u.IsActive)
             .OrderBy(u => u.FirstName)
             .ToListAsync();
@@ -31,7 +24,7 @@ public class UsersController : ControllerBase
         var usersDto = new List<UserInfoDto>();
         foreach (var user in users)
         {
-            var roles = await _userManager.GetRolesAsync(user);
+            var roles = await userManager.GetRolesAsync(user);
             usersDto.Add(new UserInfoDto
             {
                 Id = user.Id,
@@ -49,7 +42,7 @@ public class UsersController : ControllerBase
     [HttpPut("ToggleActive/{id}/toggle-active")]
     public async Task<ActionResult<Result<bool>>> ToggleActive(string id)
     {
-        var user = await _userManager.FindByIdAsync(id);
+        var user = await userManager.FindByIdAsync(id);
         if (user == null) return NotFound();
 
         user.IsActive = !user.IsActive;
@@ -59,7 +52,7 @@ public class UsersController : ControllerBase
             user.RefreshTokenExpiryTime = null;
         }
 
-        await _userManager.UpdateAsync(user);
+        await userManager.UpdateAsync(user);
         return Ok(Result<bool>.Success(true,
             user.IsActive ? "Usuario activado." : "Usuario desactivado."));
     }
@@ -67,13 +60,59 @@ public class UsersController : ControllerBase
     [HttpPut("UpdateRoles/{id}/roles")]
     public async Task<ActionResult<Result<bool>>> UpdateRoles(string id, [FromBody] List<string> roles)
     {
-        var user = await _userManager.FindByIdAsync(id);
+        var user = await userManager.FindByIdAsync(id);
         if (user == null) return NotFound();
 
-        var currentRoles = await _userManager.GetRolesAsync(user);
-        await _userManager.RemoveFromRolesAsync(user, currentRoles);
-        await _userManager.AddToRolesAsync(user, roles);
+        var currentRoles = await userManager.GetRolesAsync(user);
+        await userManager.RemoveFromRolesAsync(user, currentRoles);
+        await userManager.AddToRolesAsync(user, roles);
 
         return Ok(Result<bool>.Success(true, "Roles actualizados."));
+    }
+
+    [HttpPost("Create")]
+    public async Task<ActionResult<Result<UserInfoDto>>> Create([FromBody] CreateUserDto dto)
+    {
+        
+        var existingUser = await userManager.FindByEmailAsync(dto.Email);
+        if (existingUser != null)
+            return BadRequest(Result<UserInfoDto>.Failure("El email ya está registrado."));
+        
+        var user = new ApplicationUser
+        {
+            UserName = dto.Email,
+            Email = dto.Email,
+            FirstName = dto.FirstName,
+            LastName = dto.LastName,
+            EmailConfirmed = true, 
+            IsActive = true
+        };
+
+        var result = await userManager.CreateAsync(user, dto.Password);
+
+        if (!result.Succeeded)
+        {
+            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+            return BadRequest(Result<UserInfoDto>.Failure($"Error al crear usuario: {errors}"));
+        }
+        
+        if (dto.Roles != null && dto.Roles.Any())
+        {
+            await userManager.AddToRolesAsync(user, dto.Roles);
+        }
+        
+        var assignedRoles = await userManager.GetRolesAsync(user);
+
+        var userDto = new UserInfoDto
+        {
+            Id = user.Id,
+            Email = user.Email!,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            FullName = user.FullName,
+            Roles = assignedRoles.ToList()
+        };
+
+        return Ok(Result<UserInfoDto>.Success(userDto, "Usuario creado exitosamente."));
     }
 }

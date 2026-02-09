@@ -16,6 +16,7 @@ public class UnitOfWork : IUnitOfWork
     private IRepository<Appointment>? _appointments;
     private IRepository<MedicalRecord>? _medicalRecords;
     private IRepository<Notification>? _notifications;
+    private IRepository<TreatmentCategory>? _treatmentCategories;
 
     public UnitOfWork(ApplicationDbContext context)
     {
@@ -32,6 +33,7 @@ public class UnitOfWork : IUnitOfWork
     public IRepository<Appointment> Appointments => _appointments ??= new Repository<Appointment>(_context);
     public IRepository<MedicalRecord> MedicalRecords => _medicalRecords ??= new Repository<MedicalRecord>(_context);
     public IRepository<Notification> Notifications => _notifications ??= new Repository<Notification>(_context);
+    public IRepository<TreatmentCategory> TreatmentCategories => _treatmentCategories ??= new Repository<TreatmentCategory>(_context);
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         => await _context.SaveChangesAsync(cancellationToken);

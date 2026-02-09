@@ -1,6 +1,5 @@
 using System.Linq.Expressions;
 using DentalClinic.Domain.Interfaces;
-using DentalClinic.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace DentalClinic.Infrastructure.Persistence;
@@ -50,4 +49,21 @@ public class Repository<T> : IRepository<T> where T : class
         => predicate == null
             ? await _dbSet.CountAsync(cancellationToken)
             : await _dbSet.CountAsync(predicate, cancellationToken);
+    
+    public async Task<IReadOnlyList<T>> FindWithIncludeAsync(
+        Expression<Func<T, bool>> predicate, 
+        CancellationToken cancellationToken = default,
+        params Expression<Func<T, object>>[] includes)
+    {
+        IQueryable<T> query = _dbSet;
+        
+        foreach (var include in includes)
+        {
+            query = query.Include(include);
+        }
+        
+        return await query
+            .Where(predicate)
+            .ToListAsync(cancellationToken);
+    }
 }

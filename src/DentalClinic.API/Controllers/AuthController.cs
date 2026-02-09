@@ -1,7 +1,8 @@
-using System.Security.Claims;
 using DentalClinic.Application.Common.Interfaces;
 using DentalClinic.Application.Common.Models;
-using DentalClinic.Application.Features.Auth.Commands;
+using DentalClinic.Application.Features.Auth.Commands.LoginCommand;
+using DentalClinic.Application.Features.Auth.Commands.LogoutCommand;
+using DentalClinic.Application.Features.Auth.Commands.RefreshTokenCommand;
 using DentalClinic.Application.Features.Auth.DTOs;
 using DentalClinic.Domain.Entities;
 using MediatR;
@@ -13,25 +14,18 @@ namespace DentalClinic.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController : ControllerBase
+public class AuthController(
+    IMediator mediator,
+    UserManager<ApplicationUser> userManager,
+    ICurrentUserService currentUser)
+    : ControllerBase
 {
-    private readonly IMediator _mediator;
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly ICurrentUserService _currentUser;
-
-    public AuthController(IMediator mediator, UserManager<ApplicationUser> userManager, ICurrentUserService currentUser)
-    {
-        _mediator = mediator;
-        _userManager = userManager;
-        _currentUser = currentUser;
-    }
-
     [HttpPost("login")]
     [AllowAnonymous]
     public async Task<ActionResult<Result<AuthResponseDto>>> Login([FromBody] LoginDto request)
     {
         var command = new LoginCommand(request.Email, request.Password);
-        var result = await _mediator.Send(command);
+        var result = await mediator.Send(command);
         return result.Succeeded ? Ok(result) : Unauthorized(result);
     }
 
@@ -40,7 +34,7 @@ public class AuthController : ControllerBase
     public async Task<ActionResult<Result<AuthResponseDto>>> RefreshToken([FromBody] RefreshTokenDto request)
     {
         var command = new RefreshTokenCommand(request.AccessToken, request.RefreshToken);
-        var result = await _mediator.Send(command);
+        var result = await mediator.Send(command);
         return result.Succeeded ? Ok(result) : Unauthorized(result);
     }
 
@@ -48,12 +42,12 @@ public class AuthController : ControllerBase
     [Authorize]
     public async Task<ActionResult<Result<bool>>> Logout()
     {
-        var userId = _currentUser.UserId;
+        var userId = currentUser.UserId;
         if (string.IsNullOrEmpty(userId))
             return Unauthorized();
 
         var command = new LogoutCommand(userId);
-        var result = await _mediator.Send(command);
+        var result = await mediator.Send(command);
         return Ok(result);
     }
 
@@ -70,10 +64,10 @@ public class AuthController : ControllerBase
             EmailConfirmed = true,
             IsActive = true,
             CreatedAt = DateTime.UtcNow,
-            CreatedBy = _currentUser.UserId
+            CreatedBy = currentUser.UserId
         };
 
-        var createResult = await _userManager.CreateAsync(user, request.Password);
+        var createResult = await userManager.CreateAsync(user, request.Password);
         if (!createResult.Succeeded)
         {
             return BadRequest(Result<UserInfoDto>.Failure(
@@ -85,9 +79,9 @@ public class AuthController : ControllerBase
         if (!validRoles.Contains(request.Role))
             return BadRequest(Result<UserInfoDto>.Failure($"Rol inválido. Roles válidos: {string.Join(", ", validRoles)}"));
 
-        await _userManager.AddToRoleAsync(user, request.Role);
+        await userManager.AddToRoleAsync(user, request.Role);
 
-        var roles = await _userManager.GetRolesAsync(user);
+        var roles = await userManager.GetRolesAsync(user);
         var userInfo = new UserInfoDto
         {
             Id = user.Id,
@@ -105,15 +99,15 @@ public class AuthController : ControllerBase
     [Authorize]
     public async Task<ActionResult<Result<bool>>> ChangePassword([FromBody] ChangePasswordDto request)
     {
-        var userId = _currentUser.UserId;
+        var userId = currentUser.UserId;
         if (string.IsNullOrEmpty(userId))
             return Unauthorized();
 
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await userManager.FindByIdAsync(userId);
         if (user == null)
             return NotFound();
 
-        var result = await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+        var result = await userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
         if (!result.Succeeded)
         {
             return BadRequest(Result<bool>.Failure(
@@ -127,15 +121,15 @@ public class AuthController : ControllerBase
     [Authorize]
     public async Task<ActionResult<Result<UserInfoDto>>> GetCurrentUser()
     {
-        var userId = _currentUser.UserId;
+        var userId = currentUser.UserId;
         if (string.IsNullOrEmpty(userId))
             return Unauthorized();
 
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await userManager.FindByIdAsync(userId);
         if (user == null)
             return NotFound();
 
-        var roles = await _userManager.GetRolesAsync(user);
+        var roles = await userManager.GetRolesAsync(user);
         var userInfo = new UserInfoDto
         {
             Id = user.Id,

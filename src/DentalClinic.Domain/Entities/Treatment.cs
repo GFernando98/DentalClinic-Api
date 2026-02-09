@@ -8,13 +8,15 @@ namespace DentalClinic.Domain.Entities;
 /// </summary>
 public class Treatment : BaseAuditableEntity
 {
-    public string Code { get; set; } = string.Empty;        // Código del tratamiento
+    public string Code { get; set; } = string.Empty;      
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }
+    public Guid CategoryId { get; set; }
     public TreatmentCategory Category { get; set; }
     public decimal DefaultPrice { get; set; }
     public int? EstimatedDurationMinutes { get; set; }
     public bool IsActive { get; set; } = true;
+    
 
     // Navigation
     public ICollection<TreatmentRecord> TreatmentRecords { get; set; } = new List<TreatmentRecord>();

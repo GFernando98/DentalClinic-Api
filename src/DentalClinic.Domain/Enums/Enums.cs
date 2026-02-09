@@ -43,7 +43,7 @@ public enum ToothSurface
     Distal = 2,
     Buccal = 3,      // Vestibular
     Lingual = 4,
-    Occlusal = 5,    // Oclusal (solo en molares/premolares)
+    Oclusal = 5,    // Oclusal (solo en molares/premolares)
     Incisal = 6      // Incisal (solo en incisivos/caninos)
 }
 
@@ -55,20 +55,6 @@ public enum AppointmentStatus
     Completed = 4,     // Completada
     Cancelled = 5,     // Cancelada
     NoShow = 6         // No se presentó
-}
-
-public enum TreatmentCategory
-{
-    Preventive = 1,       // Preventivo
-    Restorative = 2,      // Restaurador
-    Endodontics = 3,      // Endodoncia
-    Periodontics = 4,     // Periodoncia
-    Orthodontics = 5,     // Ortodoncia
-    Prosthodontics = 6,   // Prostodoncia
-    OralSurgery = 7,      // Cirugía oral
-    Pediatric = 8,        // Odontopediatría
-    Cosmetic = 9,         // Estética
-    Diagnostic = 10       // Diagnóstico
 }
 
 public enum NotificationType

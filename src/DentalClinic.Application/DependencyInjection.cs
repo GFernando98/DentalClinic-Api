@@ -17,6 +17,9 @@ public static class DependencyInjection
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
+        // ⬇️ Pasar una Action vacía como primer parámetro
+        services.AddAutoMapper(cfg => { }, Assembly.GetExecutingAssembly());
+
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         return services;

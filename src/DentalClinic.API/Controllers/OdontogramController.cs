@@ -1,5 +1,8 @@
 using DentalClinic.Application.Common.Models;
-using DentalClinic.Application.Features.Odontogram.Commands;
+using DentalClinic.Application.Features.Odontogram.Commands.AddSurfaceRecordCommand;
+using DentalClinic.Application.Features.Odontogram.Commands.AddTreatmentRecordCommand;
+using DentalClinic.Application.Features.Odontogram.Commands.CreateOdontogramCommand;
+using DentalClinic.Application.Features.Odontogram.Commands.UpdateToothCommand;
 using DentalClinic.Application.Features.Odontogram.DTOs;
 using DentalClinic.Application.Features.Odontogram.Queries;
 using MediatR;
@@ -11,27 +14,20 @@ namespace DentalClinic.API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize(Policy = "DoctorOrAdmin")]
-public class OdontogramController : ControllerBase
+public class OdontogramController(IMediator mediator) : ControllerBase
 {
-    private readonly IMediator _mediator;
-
-    public OdontogramController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-
     [HttpGet("GetByPatient/{patientId:guid}")]
     public async Task<ActionResult<Result<IReadOnlyList<OdontogramDto>>>> GetByPatient(Guid patientId, CancellationToken ct)
-        => Ok(await _mediator.Send(new GetPatientOdontogramsQuery(patientId), ct));
+        => Ok(await mediator.Send(new GetPatientOdontogramsQuery(patientId), ct));
 
     [HttpGet("GetById/{id:guid}")]
     public async Task<ActionResult<Result<OdontogramDto>>> GetById(Guid id, CancellationToken ct)
-        => Ok(await _mediator.Send(new GetOdontogramByIdQuery(id), ct));
+        => Ok(await mediator.Send(new GetOdontogramByIdQuery(id), ct));
 
     [HttpPost("Create")]
     public async Task<ActionResult<Result<OdontogramDto>>> Create([FromBody] CreateOdontogramDto dto, CancellationToken ct)
     {
-        var result = await _mediator.Send(new CreateOdontogramCommand(dto), ct);
+        var result = await mediator.Send(new CreateOdontogramCommand(dto), ct);
         return result.Succeeded
             ? CreatedAtAction(nameof(GetById), new { id = result.Data!.Id }, result)
             : BadRequest(result);
@@ -41,28 +37,28 @@ public class OdontogramController : ControllerBase
     public async Task<ActionResult<Result<ToothRecordDto>>> UpdateTooth(
         Guid toothRecordId, [FromBody] UpdateToothDto dto, CancellationToken ct)
     {
-        var result = await _mediator.Send(new UpdateToothCommand(toothRecordId, dto), ct);
+        var result = await mediator.Send(new UpdateToothCommand(toothRecordId, dto), ct);
         return result.Succeeded ? Ok(result) : BadRequest(result);
     }
 
-    [HttpPost("AddSurface/{toothRecordId:guid}/surface")]
+    [HttpPost("AddSurface/{toothRecordId:guid}")]
     public async Task<ActionResult<Result<ToothSurfaceDto>>> AddSurface(
         Guid toothRecordId, [FromBody] AddSurfaceDto dto, CancellationToken ct)
     {
-        var result = await _mediator.Send(new AddSurfaceRecordCommand(toothRecordId, dto), ct);
+        var result = await mediator.Send(new AddSurfaceRecordCommand(toothRecordId, dto), ct);
         return result.Succeeded ? Ok(result) : BadRequest(result);
     }
 
-    [HttpPost("AddTreatment/{toothRecordId:guid}/treatment")]
+    [HttpPost("AddTreatment/{toothRecordId:guid}")]
     public async Task<ActionResult<Result<TreatmentRecordDto>>> AddTreatment(
         Guid toothRecordId, [FromBody] AddTreatmentRecordDto dto, CancellationToken ct)
     {
-        var result = await _mediator.Send(new AddTreatmentRecordCommand(toothRecordId, dto), ct);
+        var result = await mediator.Send(new AddTreatmentRecordCommand(toothRecordId, dto), ct);
         return result.Succeeded ? Ok(result) : BadRequest(result);
     }
 
-    [HttpGet("GetToothTreatments/{toothRecordId:guid}/treatments")]
+    [HttpGet("GetToothTreatments/{toothRecordId:guid}")]
     public async Task<ActionResult<Result<IReadOnlyList<TreatmentRecordDto>>>> GetToothTreatments(
         Guid toothRecordId, CancellationToken ct)
-        => Ok(await _mediator.Send(new GetToothTreatmentsQuery(toothRecordId), ct));
+        => Ok(await mediator.Send(new GetToothTreatmentsQuery(toothRecordId), ct));
 }

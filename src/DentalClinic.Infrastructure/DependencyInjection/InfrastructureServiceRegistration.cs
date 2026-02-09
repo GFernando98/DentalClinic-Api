@@ -75,6 +75,7 @@ public static class InfrastructureServiceRegistration
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddScoped<IEmailService, EmailService>();
         services.AddHttpClient<IWhatsAppService, WhatsAppService>();
+        
 
         return services;
     }

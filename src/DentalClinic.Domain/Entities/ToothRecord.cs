@@ -23,8 +23,7 @@ public class ToothRecord : BaseAuditableEntity
     public ToothCondition Condition { get; set; } = ToothCondition.Healthy;
     public string? Notes { get; set; }
     public bool IsPresent { get; set; } = true;
-
-    // Navigation - treatments applied to this specific tooth
+    
     public ICollection<TreatmentRecord> Treatments { get; set; } = new List<TreatmentRecord>();
     public ICollection<ToothSurfaceRecord> SurfaceRecords { get; set; } = new List<ToothSurfaceRecord>();
 }

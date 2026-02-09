@@ -120,6 +120,10 @@ public class TreatmentConfiguration : IEntityTypeConfiguration<Treatment>
         builder.Property(t => t.Name).HasMaxLength(200).IsRequired();
         builder.Property(t => t.Description).HasMaxLength(1000);
         builder.Property(t => t.DefaultPrice).HasColumnType("decimal(18,2)");
+        builder.HasOne(t => t.Category)
+            .WithMany(c => c.Treatments)
+            .HasForeignKey(t => t.CategoryId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasIndex(t => t.Code).IsUnique().HasFilter("[IsDeleted] = 0");
     }
@@ -230,5 +234,16 @@ public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
 
         builder.HasIndex(n => n.Status);
         builder.HasIndex(n => n.ScheduledAt);
+    }
+}
+
+public class TreatmentCategoryConfiguration : IEntityTypeConfiguration<TreatmentCategory>
+{
+    public void Configure(EntityTypeBuilder<TreatmentCategory> builder)
+    {
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
+        builder.Property(x => x.Color).HasMaxLength(10);
+        builder.HasQueryFilter(x => !x.IsDeleted);
     }
 }
