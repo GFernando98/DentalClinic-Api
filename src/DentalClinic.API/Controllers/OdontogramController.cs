@@ -2,6 +2,7 @@ using DentalClinic.Application.Common.Models;
 using DentalClinic.Application.Features.Odontogram.Commands.AddSurfaceRecordCommand;
 using DentalClinic.Application.Features.Odontogram.Commands.AddTreatmentRecordCommand;
 using DentalClinic.Application.Features.Odontogram.Commands.CreateOdontogramCommand;
+using DentalClinic.Application.Features.Odontogram.Commands.MarkTreatmentAsPaidCommand;
 using DentalClinic.Application.Features.Odontogram.Commands.UpdateToothCommand;
 using DentalClinic.Application.Features.Odontogram.DTOs;
 using DentalClinic.Application.Features.Odontogram.Queries;
@@ -61,4 +62,12 @@ public class OdontogramController(IMediator mediator) : ControllerBase
     public async Task<ActionResult<Result<IReadOnlyList<TreatmentRecordDto>>>> GetToothTreatments(
         Guid toothRecordId, CancellationToken ct)
         => Ok(await mediator.Send(new GetToothTreatmentsQuery(toothRecordId), ct));
+    
+    [HttpPut("MarkTreatmentAsPaid/{treatmentRecordId}")]
+    public async Task<ActionResult<Result<bool>>> MarkTreatmentAsPaid(Guid treatmentRecordId, CancellationToken ct)
+    {
+        var command = new MarkTreatmentAsPaidCommand(treatmentRecordId);
+        var result = await mediator.Send(command, ct);
+        return result.Succeeded ? Ok(result) : BadRequest(result);
+    }
 }

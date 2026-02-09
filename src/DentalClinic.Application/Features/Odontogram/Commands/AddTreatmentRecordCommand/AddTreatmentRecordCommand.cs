@@ -44,7 +44,7 @@ public class AddTreatmentRecordCommandHandler(IUnitOfWork unitOfWork, ICurrentUs
         return Result<TreatmentRecordDto>.Success(new TreatmentRecordDto
         {
             Id = record.Id,
-            ToothRecordId = record.ToothRecordId,
+            ToothRecordId = record.ToothRecordId ?? Guid.Empty,
             ToothNumber = tooth.ToothNumber,
             TreatmentId = record.TreatmentId,
             TreatmentName = treatment.Name,

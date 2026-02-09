@@ -8,7 +8,9 @@ namespace DentalClinic.Domain.Entities;
 /// </summary>
 public class TreatmentRecord : BaseAuditableEntity
 {
-    public Guid ToothRecordId { get; set; }
+    public Guid? ToothRecordId { get; set; }
+    public Guid OdontogramId { get; set; }
+    public Odontogram Odontogram { get; set; } = null!;
     public ToothRecord ToothRecord { get; set; } = null!;
 
     public Guid TreatmentId { get; set; }
@@ -25,4 +27,5 @@ public class TreatmentRecord : BaseAuditableEntity
     public string? Notes { get; set; }
     public string? SurfacesAffected { get; set; }  // Comma-separated: "M,D,O"
     public bool IsCompleted { get; set; } = true;
+    public bool IsPaid { get; set; } = false;
 }

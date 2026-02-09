@@ -14,4 +14,5 @@ public class TreatmentDto
     public decimal DefaultPrice { get; set; }
     public int? EstimatedDurationMinutes { get; set; }
     public bool IsActive { get; set; }
+    public bool IsGlobalTreatment { get; set; }
 }

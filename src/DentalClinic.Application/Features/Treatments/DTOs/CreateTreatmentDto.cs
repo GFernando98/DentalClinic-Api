@@ -10,4 +10,5 @@ public class CreateTreatmentDto
     public Guid CategoryId { get; set; }
     public decimal DefaultPrice { get; set; }
     public int? EstimatedDurationMinutes { get; set; }
+    public bool IsGlobalTreatment { get; set; }
 }

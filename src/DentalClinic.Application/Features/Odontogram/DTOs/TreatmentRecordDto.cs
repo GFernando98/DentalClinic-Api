@@ -15,4 +15,6 @@ public class TreatmentRecordDto
     public string? Notes { get; set; }
     public string? SurfacesAffected { get; set; }
     public bool IsCompleted { get; set; }
+    public bool IsPaid { get; set; }
+    public bool IsGlobalTreatment { get; set; }
 }

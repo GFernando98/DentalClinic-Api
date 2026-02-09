@@ -16,6 +16,7 @@ public class Treatment : BaseAuditableEntity
     public decimal DefaultPrice { get; set; }
     public int? EstimatedDurationMinutes { get; set; }
     public bool IsActive { get; set; } = true;
+    public bool IsGlobalTreatment { get; set; } = false;
     
 
     // Navigation

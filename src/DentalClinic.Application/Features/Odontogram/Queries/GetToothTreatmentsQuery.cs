@@ -23,7 +23,7 @@ public class GetToothTreatmentsQueryHandler(IUnitOfWork unitOfWork)
 
             dtos.Add(new TreatmentRecordDto
             {
-                Id = r.Id, ToothRecordId = r.ToothRecordId,
+                Id = r.Id, ToothRecordId = r.ToothRecordId ?? Guid.Empty,
                 TreatmentId = r.TreatmentId,
                 TreatmentName = treatment?.Name ?? "N/A",
                 TreatmentCode = treatment?.Code,
