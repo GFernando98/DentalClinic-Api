@@ -36,6 +36,7 @@ public class UpdateTreatmentCommandHandler(IUnitOfWork unitOfWork, IMapper mappe
         treatment.CategoryId = dto.CategoryId;
         treatment.DefaultPrice = dto.DefaultPrice;
         treatment.EstimatedDurationMinutes = dto.EstimatedDurationMinutes;
+        treatment.IsGlobalTreatment = dto.IsGlobalTreatment;
 
         await unitOfWork.Treatments.UpdateAsync(treatment, ct);
         await unitOfWork.SaveChangesAsync(ct);

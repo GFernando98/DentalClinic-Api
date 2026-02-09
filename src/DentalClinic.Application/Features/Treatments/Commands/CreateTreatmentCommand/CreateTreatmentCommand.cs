@@ -33,7 +33,8 @@ public class CreateTreatmentCommandHandler(IUnitOfWork unitOfWork, IMapper mappe
             CategoryId = dto.CategoryId,
             DefaultPrice = dto.DefaultPrice,
             EstimatedDurationMinutes = dto.EstimatedDurationMinutes,
-            IsActive = true
+            IsActive = true,
+            IsGlobalTreatment = dto.IsGlobalTreatment
         };
 
         await unitOfWork.Treatments.AddAsync(treatment, ct);
