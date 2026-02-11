@@ -3,8 +3,8 @@ namespace DentalClinic.Application.Features.Odontogram.DTOs;
 public class TreatmentRecordDto
 {
     public Guid Id { get; set; }
-    public Guid ToothRecordId { get; set; }
-    public int ToothNumber { get; set; }
+    public Guid? ToothRecordId { get; set; }
+    public int? ToothNumber { get; set; }
     public Guid TreatmentId { get; set; }
     public string TreatmentName { get; set; } = string.Empty;
     public string? TreatmentCode { get; set; }

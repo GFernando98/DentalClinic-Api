@@ -1,4 +1,3 @@
-// src/DentalClinic.Application/Features/Treatments/Queries/GetAllTreatmentsQuery.cs
 using AutoMapper;
 using DentalClinic.Application.Common.Models;
 using DentalClinic.Application.Features.Treatments.DTOs;

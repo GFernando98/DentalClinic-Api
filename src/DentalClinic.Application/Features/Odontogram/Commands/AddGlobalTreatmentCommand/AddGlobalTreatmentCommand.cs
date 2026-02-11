@@ -6,36 +6,43 @@ using DentalClinic.Domain.Entities;
 using DentalClinic.Domain.Interfaces;
 using MediatR;
 
-namespace DentalClinic.Application.Features.Odontogram.Commands.AddTreatmentRecordCommand;
+namespace DentalClinic.Application.Features.Odontogram.Commands.AddGlobalTreatmentCommand;
 
-public record AddTreatmentRecordCommand(Guid ToothRecordId, AddTreatmentRecordDto Treatment) 
+public record AddGlobalTreatmentCommand(Guid OdontogramId, AddGlobalTreatmentDto Treatment) 
     : IRequest<Result<TreatmentRecordDto>>;
 
-public class AddTreatmentRecordCommandHandler(IUnitOfWork unitOfWork, ICurrentUserService currentUser)
-    : IRequestHandler<AddTreatmentRecordCommand, Result<TreatmentRecordDto>>
+public class AddGlobalTreatmentCommandHandler(IUnitOfWork unitOfWork, ICurrentUserService currentUser)
+    : IRequestHandler<AddGlobalTreatmentCommand, Result<TreatmentRecordDto>>
 {
-    public async Task<Result<TreatmentRecordDto>> Handle(AddTreatmentRecordCommand request, CancellationToken cancellationToken)
+    public async Task<Result<TreatmentRecordDto>> Handle(AddGlobalTreatmentCommand request, CancellationToken cancellationToken)
     {
-        var tooth = await unitOfWork.ToothRecords.GetByIdAsync(request.ToothRecordId, cancellationToken)
-            ?? throw new NotFoundException(nameof(ToothRecord), request.ToothRecordId);
+        // Verificar que el odontograma existe
+        var odontogram = await unitOfWork.Odontograms.GetByIdAsync(request.OdontogramId, cancellationToken)
+            ?? throw new NotFoundException(nameof(Domain.Entities.Odontogram), request.OdontogramId);
 
         var treatment = await unitOfWork.Treatments.GetByIdAsync(request.Treatment.TreatmentId, cancellationToken)
             ?? throw new NotFoundException(nameof(Treatment), request.Treatment.TreatmentId);
 
         var doctor = await unitOfWork.Doctors.GetByIdAsync(request.Treatment.DoctorId, cancellationToken)
             ?? throw new NotFoundException(nameof(Doctor), request.Treatment.DoctorId);
+        
+        if (!treatment.IsGlobalTreatment)
+        {
+            return Result<TreatmentRecordDto>.Failure(
+                $"El tratamiento '{treatment.Name}' no es un tratamiento global. Use el endpoint de tratamientos por diente.");
+        }
 
         var record = new TreatmentRecord
         {
-            ToothRecordId = request.ToothRecordId,
-            OdontogramId = tooth.OdontogramId,  
+            ToothRecordId = null, 
+            OdontogramId = request.OdontogramId,
             TreatmentId = request.Treatment.TreatmentId,
             DoctorId = request.Treatment.DoctorId,
             AppointmentId = request.Treatment.AppointmentId,
             PerformedDate = request.Treatment.PerformedDate ?? DateTime.UtcNow,
             Price = request.Treatment.Price ?? treatment.DefaultPrice,
             Notes = request.Treatment.Notes,
-            SurfacesAffected = request.Treatment.SurfacesAffected,
+            SurfacesAffected = null, 
             IsCompleted = request.Treatment.IsCompleted,
             CreatedBy = currentUser.UserId
         };
@@ -46,8 +53,8 @@ public class AddTreatmentRecordCommandHandler(IUnitOfWork unitOfWork, ICurrentUs
         return Result<TreatmentRecordDto>.Success(new TreatmentRecordDto
         {
             Id = record.Id,
-            ToothRecordId = record.ToothRecordId ?? Guid.Empty,
-            ToothNumber = tooth.ToothNumber,
+            ToothRecordId = null,
+            ToothNumber = null,
             TreatmentId = record.TreatmentId,
             TreatmentName = treatment.Name,
             TreatmentCode = treatment.Code,
@@ -56,8 +63,9 @@ public class AddTreatmentRecordCommandHandler(IUnitOfWork unitOfWork, ICurrentUs
             PerformedDate = record.PerformedDate,
             Price = record.Price,
             Notes = record.Notes,
-            SurfacesAffected = record.SurfacesAffected,
-            IsCompleted = record.IsCompleted
-        }, "Tratamiento registrado.");
+            SurfacesAffected = null,
+            IsCompleted = record.IsCompleted,
+            IsGlobalTreatment = true
+        }, "Tratamiento global registrado.");
     }
 }

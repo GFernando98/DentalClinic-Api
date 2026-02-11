@@ -1,4 +1,5 @@
 using DentalClinic.Application.Common.Models;
+using DentalClinic.Application.Features.Odontogram.Commands.AddGlobalTreatmentCommand;
 using DentalClinic.Application.Features.Odontogram.Commands.AddSurfaceRecordCommand;
 using DentalClinic.Application.Features.Odontogram.Commands.AddTreatmentRecordCommand;
 using DentalClinic.Application.Features.Odontogram.Commands.CreateOdontogramCommand;
@@ -57,11 +58,32 @@ public class OdontogramController(IMediator mediator) : ControllerBase
         var result = await mediator.Send(new AddTreatmentRecordCommand(toothRecordId, dto), ct);
         return result.Succeeded ? Ok(result) : BadRequest(result);
     }
+    
+    [HttpPost("AddGlobalTreatment/{odontogramId}")]
+    public async Task<ActionResult<Result<TreatmentRecordDto>>> AddGlobalTreatment(
+        Guid odontogramId,
+        [FromBody] AddGlobalTreatmentDto dto,
+        CancellationToken ct)
+    {
+        var command = new AddGlobalTreatmentCommand(odontogramId, dto);
+        var result = await mediator.Send(command, ct);
+        return result.Succeeded ? Ok(result) : BadRequest(result);
+    }
 
     [HttpGet("GetToothTreatments/{toothRecordId:guid}")]
     public async Task<ActionResult<Result<IReadOnlyList<TreatmentRecordDto>>>> GetToothTreatments(
         Guid toothRecordId, CancellationToken ct)
         => Ok(await mediator.Send(new GetToothTreatmentsQuery(toothRecordId), ct));
+    
+    [HttpGet("GetAllOdontogramTreatments/{odontogramId}")]
+    public async Task<ActionResult<Result<IReadOnlyList<TreatmentRecordDto>>>> GetAllOdontogramTreatments(
+        Guid odontogramId,
+        CancellationToken ct)
+    {
+        var query = new GetAllOdontogramTreatmentsQuery(odontogramId);
+        var result = await mediator.Send(query, ct);
+        return result.Succeeded ? Ok(result) : BadRequest(result);
+    }
     
     [HttpPut("MarkTreatmentAsPaid/{treatmentRecordId}")]
     public async Task<ActionResult<Result<bool>>> MarkTreatmentAsPaid(Guid treatmentRecordId, CancellationToken ct)
