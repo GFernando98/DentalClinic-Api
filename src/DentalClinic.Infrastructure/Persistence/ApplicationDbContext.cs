@@ -19,6 +19,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Appointment> Appointments => Set<Appointment>();
     public DbSet<MedicalRecord> MedicalRecords => Set<MedicalRecord>();
     public DbSet<Notification> Notifications => Set<Notification>();
+    public DbSet<ClinicInformation> ClinicInformation { get; set; }
+    public DbSet<TaxInformation> TaxInformation { get; set; }
+    public DbSet<Invoice> Invoices { get; set; }
+    public DbSet<InvoiceLineItem> InvoiceLineItems { get; set; }
+    public DbSet<Payment> Payments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
