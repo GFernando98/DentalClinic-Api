@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DentalClinic.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260211192550_AddInvoicingModule")]
+    [Migration("20260211224852_AddInvoicingModule")]
     partial class AddInvoicingModule
     {
         /// <inheritdoc />

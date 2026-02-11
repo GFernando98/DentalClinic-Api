@@ -15,5 +15,9 @@ public interface IUnitOfWork : IDisposable
     IRepository<MedicalRecord> MedicalRecords { get; }
     IRepository<Notification> Notifications { get; }
     IRepository<TreatmentCategory> TreatmentCategories { get; }
+    IRepository<ClinicInformation> ClinicInformation { get; }
+    IRepository<TaxInformation> TaxInformation { get; }
+    IRepository<Invoice> Invoices { get; }
+    IRepository<Payment> Payments { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
