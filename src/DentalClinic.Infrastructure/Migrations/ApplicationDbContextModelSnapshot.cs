@@ -840,6 +840,10 @@ namespace DentalClinic.Infrastructure.Migrations
                     b.Property<DateTime>("AuthorizationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Branch")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CAI")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -850,8 +854,9 @@ namespace DentalClinic.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("CurrentNumber")
-                        .HasColumnType("bigint");
+                    b.Property<string>("CurrentNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -861,6 +866,9 @@ namespace DentalClinic.Infrastructure.Migrations
 
                     b.Property<DateTime>("ExpirationDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("HasBeenUsed")
+                        .HasColumnType("bit");
 
                     b.Property<int>("InvoiceType")
                         .HasColumnType("int");
@@ -877,11 +885,17 @@ namespace DentalClinic.Infrastructure.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("RangeEnd")
-                        .HasColumnType("bigint");
+                    b.Property<string>("PointEmission")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("RangeStart")
-                        .HasColumnType("bigint");
+                    b.Property<string>("RangeEnd")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RangeStart")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

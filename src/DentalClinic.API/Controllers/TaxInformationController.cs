@@ -1,6 +1,6 @@
 using DentalClinic.Application.Common.Models;
 using DentalClinic.Application.Features.TaxInformation.Commands.CreateTaxInformationCommand;
-using DentalClinic.Application.Features.TaxInformation.Commands.DeactivateTaxInformationCommand;
+using DentalClinic.Application.Features.TaxInformation.Commands.ToggleTaxInformationCommand;
 using DentalClinic.Application.Features.TaxInformation.DTOs;
 using DentalClinic.Application.Features.TaxInformation.Queries;
 using MediatR;
@@ -32,10 +32,13 @@ public class TaxInformationController(IMediator mediator) : ControllerBase
         return result.Succeeded ? Ok(result) : BadRequest(result);
     }
     
-    [HttpPut("Deactivate/{id}")]
-    public async Task<ActionResult<Result<bool>>> Deactivate(Guid id, CancellationToken ct)
+    [HttpPut("Toggle/{id}")]
+    public async Task<ActionResult<Result<TaxInformationDto>>> Toggle(
+        Guid id,
+        [FromQuery] bool activate,
+        CancellationToken ct)
     {
-        var command = new DeactivateTaxInformationCommand(id);
+        var command = new ToggleTaxInformationCommand(id, activate);
         var result = await mediator.Send(command, ct);
         return result.Succeeded ? Ok(result) : BadRequest(result);
     }

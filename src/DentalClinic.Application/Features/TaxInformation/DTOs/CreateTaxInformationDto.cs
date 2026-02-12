@@ -6,8 +6,10 @@ public class CreateTaxInformationDto
 {
     public string CAI { get; set; } = string.Empty;
     public InvoiceType InvoiceType { get; set; } = InvoiceType.Factura;
-    public long RangeStart { get; set; }
-    public long RangeEnd { get; set; }
+    public string RangeStart { get; set; }
+    public string RangeEnd { get; set; }
+    public string Branch { get; set; }
+    public string PointEmission { get; set; }
     public DateTime AuthorizationDate { get; set; }
     public DateTime ExpirationDate { get; set; }
 }
