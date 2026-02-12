@@ -181,11 +181,10 @@ public class CreateInvoiceCommandHandler(IUnitOfWork unitOfWork, ICurrentUserSer
     {
         // 1. Buscar CAI activo
         var activeTaxInfo = (await unitOfWork.TaxInformation.FindAsync(
-            t => t.IsActive && t.InvoiceType == InvoiceType.Factura,
-            ct
-        ))
-        .Where(t => t.CanGenerateInvoice)
-        .FirstOrDefault();
+                t => t.IsActive && t.InvoiceType == InvoiceType.Factura,
+                ct
+            ))
+            .FirstOrDefault(t => t.CanGenerateInvoice);
 
         // 2. Si el CAI activo está por agotarse (≤10 facturas restantes), auto-switch
         if (activeTaxInfo != null && activeTaxInfo.RemainingInvoices <= 10)

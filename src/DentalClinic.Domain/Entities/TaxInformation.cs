@@ -67,6 +67,21 @@ public class TaxInformation : BaseAuditableEntity
     
     public string GetFullInvoiceNumber()
     {
-        return $"{Branch}-{PointEmission}-{CurrentNumber}";
+        switch (InvoiceType)
+        {
+            case InvoiceType.Factura:
+                return $"{PointEmission}-{Branch}-01-{CurrentNumber}";
+            break;
+            case InvoiceType.Recibo:
+                return $"{PointEmission}-{Branch}-03-{CurrentNumber}";
+            break;
+            case InvoiceType.NotaCredito:
+                return $"{PointEmission}-{Branch}-04-{CurrentNumber}";
+            break;
+            case InvoiceType.NotaDebito:
+                return $"{PointEmission}-{Branch}-05-{CurrentNumber}";
+            default:
+                return string.Empty;
+        }
     }
 }
